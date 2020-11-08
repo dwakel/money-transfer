@@ -5,10 +5,7 @@ import test.moneytransfer.model.Deposit;
 import test.moneytransfer.model.PaymentTransaction;
 import test.moneytransfer.model.Withdrawal;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class PaymentRepository implements IPaymentRepository {
 
@@ -18,23 +15,44 @@ public class PaymentRepository implements IPaymentRepository {
     private static List<PaymentTransaction> PaymentTransactionTable = new ArrayList<PaymentTransaction>();
 
     @Override
-    public Deposit addDeposit(UUID id, Deposit depositModel) {
-        return null;
+    public Optional<Deposit> addDeposit(UUID id, Deposit depositModel) {
+        DepositTable.add(new Deposit(id,
+                depositModel.getUserId(),
+                depositModel.getAmount(),
+                depositModel.getPaidAt(),
+                new Date()));
+
+        return findDepositById(id);
     }
 
     @Override
-    public Optional<Deposit> listDepositsByUserId(UUID userId) {
-        return Optional.empty();
+    public List<Deposit> listDepositsByUserId(UUID userId) {
+        List<Deposit> userDep = new ArrayList();
+        for (Deposit dep: DepositTable) {
+            if (dep.getUserId().equals(userId))
+                userDep.add(dep);
+        }
+        return userDep;
     }
 
     @Override
     public Optional<Deposit> findDepositById(UUID id) {
-        return Optional.empty();
+
+        return DepositTable.stream()
+                .filter(d -> d.getId().equals(id))
+                .findFirst();
     }
 
     @Override
-    public Withdrawal addWithdrawal(UUID id, Withdrawal depositModel) {
-        return null;
+    public Optional<Withdrawal> addWithdrawal(UUID id, Withdrawal withdrawalModel) {
+
+        WithdrawalTable.add(new Withdrawal(id,
+                withdrawalModel.getUserId(),
+                withdrawalModel.getAmount(),
+                withdrawalModel.getDisbursedAt(),
+                new Date()));
+
+        return findWithdrawalById(id);
     }
 
     @Override
@@ -44,31 +62,53 @@ public class PaymentRepository implements IPaymentRepository {
 
     @Override
     public Optional<Withdrawal> findWithdrawalById(UUID id) {
-        return Optional.empty();
+
+        return WithdrawalTable.stream()
+                .filter(d -> d.getId().equals(id))
+                .findFirst();
     }
 
     @Override
-    public PaymentTransaction createPaymentTransaction(UUID id, PaymentTransaction payment) {
-        return null;
+    public void createPaymentTransaction(UUID id, PaymentTransaction payment) {
+        PaymentTransactionTable.add(new PaymentTransaction(id,
+                payment.getUserId(),
+                payment.getAmount(),
+                payment.getPaymentType(),
+                new Date(),
+                payment.getOwnerBalance()));
     }
 
     @Override
-    public Optional<PaymentTransaction> listPaymentById(UUID userId) {
-        return Optional.empty();
+    public List<PaymentTransaction> listPaymentById(UUID userId) {
+        List<PaymentTransaction> listPayment = new ArrayList<>();
+        for (PaymentTransaction payment: PaymentTransactionTable) {
+            if (payment.getUserId().equals(userId))
+                listPayment.add(payment);
+        }
+        return listPayment;
     }
 
     @Override
-    public Optional<UUID> findUserBalanceByUserId(UUID userId, Balance balanceModel) {
-        return Optional.empty();
+    public Optional<Balance> findUserBalanceByUserId(UUID userId) {
+
+        return BalanceTable.stream()
+                .filter(x -> x.getUserId()
+                .equals(userId)).findFirst();
     }
 
     @Override
-    public Balance AddUserBalance(UUID userId, Balance balanceModel) {
-        return null;
+    public void AddUserBalance(UUID userId, Balance balanceModel) {
+        BalanceTable.add(new Balance(balanceModel.getId(),
+                userId,
+                balanceModel.getActualBalance(),
+                balanceModel.getAvailableBalance(),
+                new Date()));
+
     }
 
     @Override
-    public Balance UpdateUserBalance(UUID userId, Balance balanceModel) {
-        return null;
+    public void UpdateUserBalance(UUID userId, Balance balanceModel) {
+        int index = BalanceTable.indexOf(findUserBalanceByUserId(userId));
+        BalanceTable.set(index, balanceModel);
     }
 }

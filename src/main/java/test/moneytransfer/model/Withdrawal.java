@@ -15,7 +15,7 @@ public class Withdrawal {
     public Withdrawal(@JsonProperty("id") UUID id,
                    @JsonProperty("userId") UUID userId,
                    @JsonProperty("amount") double amount,
-                   @JsonProperty("paidAt") Date disbursedAt,
+                   @JsonProperty("disbursedAt") Date disbursedAt,
                    @JsonProperty("createdAt") Date createdAt) {
         this.id = id;
         this.userId = userId;
@@ -36,7 +36,7 @@ public class Withdrawal {
         return amount;
     }
 
-    public Date getPaidAt() {
+    public Date getDisbursedAt() {
         return disbursedAt;
     }
 }
