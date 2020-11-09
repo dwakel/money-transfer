@@ -1,12 +1,14 @@
 package test.moneytransfer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import test.moneytransfer.data.IPaymentRepository;
 import test.moneytransfer.model.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class PaymentService {
     private final IPaymentRepository paymentRepository;
 

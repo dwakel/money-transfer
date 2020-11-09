@@ -1,5 +1,6 @@
 package test.moneytransfer.data;
 
+import org.springframework.stereotype.Repository;
 import test.moneytransfer.model.Balance;
 import test.moneytransfer.model.Deposit;
 import test.moneytransfer.model.PaymentTransaction;
@@ -7,6 +8,7 @@ import test.moneytransfer.model.Withdrawal;
 
 import java.util.*;
 
+@Repository
 public class PaymentRepository implements IPaymentRepository {
 
     private static List<Balance> BalanceTable = new ArrayList<Balance>();

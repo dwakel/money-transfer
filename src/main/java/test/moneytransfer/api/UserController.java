@@ -30,7 +30,7 @@ public class UserController {
         return this.userService.GetUser(id);
     }
 
-    @PostMapping(path = "{id} ")
+    @PostMapping(path = "{id}")
     public User UpdateUser(@PathVariable("id")UUID id, @RequestBody User user){
         return this.userService.UpdateUser(id, user);
     }

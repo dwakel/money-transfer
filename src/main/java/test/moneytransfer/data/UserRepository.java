@@ -1,11 +1,13 @@
 package test.moneytransfer.data;
 
+import org.springframework.stereotype.Repository;
 import test.moneytransfer.model.User;
 
 import javax.swing.text.html.Option;
 import java.lang.reflect.Array;
 import java.util.*;
 
+@Repository
 public class UserRepository implements IUserRepository {
     private static List<User> UserTable = new ArrayList<User>();
 
